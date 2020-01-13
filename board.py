@@ -30,7 +30,6 @@ class Board:
             current_row = current_row + 1
             current_col = 0
         
-        print(self.rendered_board_as_list)
         return board
 
     def draw_board(self):
@@ -39,7 +38,6 @@ class Board:
         rendered_board = first_and_last_rows
         while current_row < self.height:
             rendered_board += '|' + ''.join(self.rendered_board_as_list[current_row]) + '|\n'
-            print (rendered_board)
             current_row += 1
         rendered_board += first_and_last_rows
 
