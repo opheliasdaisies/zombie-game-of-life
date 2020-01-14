@@ -24,7 +24,7 @@ class Board:
             self.rendered_board_as_list.append([])
             while current_col < self.width:
                 cell_state = 'dead'
-                board[current_row].append(Cell(cell_state, current_row, current_col))
+                board[current_row].append(Cell(self, cell_state, current_row, current_col))
                 self.rendered_board_as_list[current_row].append(self.RENDERING_STRINGS[cell_state])
                 current_col = current_col + 1
             current_row = current_row + 1
