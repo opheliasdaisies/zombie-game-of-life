@@ -6,7 +6,7 @@ class Board:
         self.width = width
         self.height = height
         self.rendered_board_as_list = []
-        self.board = self.create()
+        self.grid = self.create()
 
     RENDERING_STRINGS = {
         'dead': '.',
@@ -33,12 +33,10 @@ class Board:
         return board
 
     def draw_board(self):
-        current_row = 0
         first_and_last_rows = '_' * (self.width + 2) + '\n'
         rendered_board = first_and_last_rows
-        while current_row < self.height:
-            rendered_board += '|' + ''.join(self.rendered_board_as_list[current_row]) + '|\n'
-            current_row += 1
+        for row in self.rendered_board_as_list:
+            rendered_board += '|' + ''.join(row) + '|\n'
         rendered_board += first_and_last_rows
 
         print(rendered_board)

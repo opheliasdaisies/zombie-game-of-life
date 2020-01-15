@@ -1,5 +1,3 @@
-from board import Board
-
 class Cell:
     #other variables: count_live_neighbors, count_zombie_neighbors
     def __init__(self, board, state, row, col):
@@ -18,15 +16,25 @@ class Cell:
             self.count_zombie_neighbors =+ 1
 
     def check_neighboring_cells(self):
-        board = self.board.board
-        self.get_neighbor_state(board[self.row-1][self.col-1])
-        self.get_neighbor_state(board[self.row-1][self.col])
-        self.get_neighbor_state(board[self.row-1][self.col+1])
-        self.get_neighbor_state(board[self.row][self.col-1])
-        self.get_neighbor_state(board[self.row][self.col+1])
-        self.get_neighbor_state(board[self.row+1][self.col-1])
-        self.get_neighbor_state(board[self.row+1][self.col])
-        self.get_neighbor_state(board[self.row+1][self.col+1])
+        board = self.board.grid
+        max_row = self.board.height-1
+        max_col = self.board.width-1
+        if self.row > 0:
+            if self.col > 0:
+                self.get_neighbor_state(board[self.row-1][self.col-1])
+            if self.col < max_col:
+                self.get_neighbor_state(board[self.row-1][self.col+1])
+            self.get_neighbor_state(board[self.row-1][self.col])
+        if self.row < max_row:
+            if self.col > 0:
+                self.get_neighbor_state(board[self.row+1][self.col-1])
+            if self.col < max_col:
+                self.get_neighbor_state(board[self.row+1][self.col+1])
+            self.get_neighbor_state(board[self.row+1][self.col])
+        if self.col > 0:
+            self.get_neighbor_state(board[self.row][self.col-1])
+        if self.col < max_col:
+            self.get_neighbor_state(board[self.row][self.col+1])
 
     def update_state(self):
         if self.state == 'alive':
@@ -47,3 +55,7 @@ class Cell:
     def take_turn(self):
         self.check_neighboring_cells()
         self.update_state()
+
+    def reset_state(self):
+        self.state = self.next_state
+        self.next_state = None
