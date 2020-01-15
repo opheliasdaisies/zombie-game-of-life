@@ -1,3 +1,5 @@
+from random import randrange
+
 class Cell:
     #other variables: count_live_neighbors, count_zombie_neighbors
     def __init__(self, board, state, row, col):
@@ -39,8 +41,10 @@ class Cell:
     def update_state(self):
         if self.state == 'alive':
             if self.count_alive_neighbors < 2 or self.count_alive_neighbors > 3:
-                self.next_state = 'dead'
-                # TODO: if no zombies on the board, 5% chance of becoming a zombie
+                if randrange(10) is 0:
+                    self.next_state = 'zombie'
+                else:
+                    self.next_state = 'dead'
             if self.count_zombie_neighbors > 1:
                 self.next_state = 'zombie'
         if self.state == 'dead':
