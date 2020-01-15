@@ -43,19 +43,22 @@ class Cell:
                 # TODO: if no zombies on the board, 5% chance of becoming a zombie
             if self.count_zombie_neighbors > 1:
                 self.next_state = 'zombie'
-        elif self.state == 'dead':
+        if self.state == 'dead':
             if self.count_alive_neighbors is 3:
                 self.next_state = 'alive'
-        elif self.state == 'zombie':
+        if self.state == 'zombie':
             if self.count_alive_neighbors > 2:
                 self.next_state = 'dead'
-        else:
+        if not self.next_state:
             self.next_state = self.state
 
     def take_turn(self):
         self.check_neighboring_cells()
         self.update_state()
+        return self.state
 
     def reset_state(self):
+        self.count_alive_neighbors = 0
+        self.count_zombie_neighbors = 0
         self.state = self.next_state
         self.next_state = None

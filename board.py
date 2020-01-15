@@ -37,7 +37,8 @@ class Board:
         for row in self.grid:
             rendered_board += '|'
             for cell in row:
-                rendered_board += self.RENDERING_STRINGS[cell.state]
+                rendered_state = cell.next_state or cell.state
+                rendered_board += self.RENDERING_STRINGS[rendered_state]
             rendered_board += '|\n'
         rendered_board += border_row
 

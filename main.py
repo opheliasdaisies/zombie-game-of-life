@@ -6,6 +6,10 @@ def tick(board):
             cell.take_turn()
     board.draw_board()
 
+    for row in board.grid:
+        for cell in row:
+            cell.reset_state()
+
 def main():
     print('Welcome to the Game of Life')
     board = Board(5, 5)
