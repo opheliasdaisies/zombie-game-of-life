@@ -1,3 +1,4 @@
+import time
 from board import Board
 
 def tick(board):
@@ -17,8 +18,14 @@ def main():
     board.grid[2][2].state = 'alive'
     board.grid[2][3].state = 'alive'
     board.grid[3][3].state = 'alive'
-    board.grid[3][2].check_neighboring_cells()
-    tick(board)
+    board.grid[1][3].state = 'alive'
+    board.draw_board()
+    try:
+        while True:
+            tick(board)
+            time.sleep(1)
+    except KeyboardInterrupt:
+        return
 
 if __name__ == "__main__":
     main()
