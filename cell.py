@@ -11,9 +11,9 @@ class Cell:
 
     def get_neighbor_state(self, neighboring_cell):
         if neighboring_cell.state is 'alive':
-            self.count_alive_neighbors =+ 1
+            self.count_alive_neighbors += 1
         if neighboring_cell.state is 'zombie':
-            self.count_zombie_neighbors =+ 1
+            self.count_zombie_neighbors += 1
 
     def check_neighboring_cells(self):
         board = self.board.grid
