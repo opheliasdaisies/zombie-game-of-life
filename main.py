@@ -1,4 +1,5 @@
 import time
+import os
 from board import Board
 
 def tick(board):
@@ -22,6 +23,7 @@ def main():
     board.draw_board()
     try:
         while True:
+            os.system('cls' if os.name == 'nt' else 'clear')
             tick(board)
             time.sleep(1)
     except KeyboardInterrupt:

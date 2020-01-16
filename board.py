@@ -7,10 +7,18 @@ class Board:
         self.height = height
         self.grid = self.create()
 
+    BLACK_BACKGROUND = '\u001b[40m'
+    BLACK_TEXT = '\u001b[30m'
+    WHITE_TEXT = '\u001b[37m'
+    GREEN_TEXT = '\u001b[32m'
+    UNICODE_BOX = '\u2588'
+    TEXT_RESET = '\u001b[0m'
+
     RENDERING_STRINGS = {
-        'dead': '.',
-        'alive': 'o',
-        'zombie': 'x',
+        'dead': f'{BLACK_TEXT}{UNICODE_BOX}',   # black box
+        'alive': f'{WHITE_TEXT}{UNICODE_BOX}',  # white box
+        'zombie': f'{GREEN_TEXT}{UNICODE_BOX}', # green box
+        'cursor': f'{WHITE_TEXT}X',             # white X
     }
 
     def create(self):
@@ -30,16 +38,12 @@ class Board:
         return board
 
     def draw_board(self):
-        border_row = '_' * (self.width + 2) + '\n'
-
-        rendered_board = border_row
+        rendered_board = f'{self.BLACK_BACKGROUND}'
 
         for row in self.grid:
-            rendered_board += '|'
             for cell in row:
                 rendered_state = cell.next_state or cell.state
                 rendered_board += self.RENDERING_STRINGS[rendered_state]
-            rendered_board += '|\n'
-        rendered_board += border_row
+            rendered_board += '\n'
 
-        print(rendered_board)
+        print(rendered_board + self.TEXT_RESET)
