@@ -1,5 +1,4 @@
 import time
-import os
 from board import Board
 
 def tick(board):
@@ -13,17 +12,18 @@ def tick(board):
             cell.reset_state()
 
 def main():
-    print('Welcome to the Game of Life')
-    board = Board(5, 5)
+    print('\u001b[34mWelcome to the Game of Life\u001b[0m')
+    width = int(input('How many cells wide should the board be?\n'))
+    height = int(input('How many cells high should the board be?\n'))
+    board = Board(width, height)
     board.draw_board()
-    board.grid[2][2].state = 'alive'
-    board.grid[2][3].state = 'alive'
-    board.grid[3][3].state = 'alive'
-    board.grid[1][3].state = 'alive'
+    board.populate_board('alive')
     board.draw_board()
+    board.populate_board('zombie')
+    board.draw_board()
+
     try:
         while True:
-            os.system('cls' if os.name == 'nt' else 'clear')
             tick(board)
             time.sleep(1)
     except KeyboardInterrupt:

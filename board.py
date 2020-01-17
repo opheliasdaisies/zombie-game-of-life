@@ -1,3 +1,4 @@
+import os
 from cell import Cell
 
 class Board:
@@ -38,6 +39,7 @@ class Board:
         return board
 
     def draw_board(self):
+        os.system('cls' if os.name == 'nt' else 'clear')
         rendered_board = f'{self.BLACK_BACKGROUND}'
 
         for row in self.grid:
@@ -47,3 +49,13 @@ class Board:
             rendered_board += '\n'
 
         print(rendered_board + self.TEXT_RESET)
+
+    def populate_board(self, state):
+        populating_cells = input(f'''Enter positions of starting {state} cells.\n
+Format should be row_from_top,column_from_left. For example, the first cell is 1,1.\n
+The second cell in the first row would be 1,2.\n
+Multiple cells should be separated by spaces. So the two above cells would be inputted: 1,1 1,2\n
+''')
+        for cell in populating_cells.split(' '):
+            coordinates = cell.split(',')
+            self.grid[int(coordinates[0])-1][int(coordinates[1])-1].state = state
