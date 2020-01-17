@@ -56,7 +56,7 @@ class Board:
             for cell in row:
                 rendered_state = cell.next_state or cell.state
                 rendered_board += self.RENDERING_STRINGS[rendered_state]
-            rendered_board += '\n'
+            rendered_board += '\n\u001b[1000D' # New line and move cursor to the left (1000 characters)
 
         print(rendered_board + self.TEXT_RESET)
 
@@ -77,7 +77,7 @@ class Board:
                     else:
                         rendered_state = cell.next_state or cell.state
                         rendered_board += self.RENDERING_STRINGS[rendered_state]
-                rendered_board += '\n'
+                rendered_board += '\n\u001b[1000D' # New line and move cursor to the left (1000 characters)
 
             os.system('cls' if os.name == 'nt' else 'clear')
             print(rendered_board + self.TEXT_RESET)
