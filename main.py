@@ -18,9 +18,7 @@ def main():
     board = Board(width, height)
     board.draw_board()
     board.populate_board('alive')
-    board.draw_board()
     board.populate_board('zombie')
-    board.draw_board()
 
     try:
         while True:
