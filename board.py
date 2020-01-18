@@ -61,6 +61,7 @@ class Board:
         print(rendered_board + self.TEXT_RESET)
 
     def populate_board(self):
+        mode = tty.tcgetattr(sys.stdin)
         tty.setraw(sys.stdin)
         cursor_row = 0
         cursor_col = 0
@@ -106,4 +107,5 @@ class Board:
                 else:
                     cell.state = 'dead'
             elif char == 10 or char == 13: # Enter
+                tty.tcsetattr(sys.stdin, tty.TCSAFLUSH, mode)
                 return
