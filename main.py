@@ -17,8 +17,7 @@ def main():
     height = int(input('How many cells high should the board be?\n'))
     board = Board(width, height)
     board.draw_board()
-    board.populate_board('alive')
-    board.populate_board('zombie')
+    board.populate_board()
 
     try:
         while True:

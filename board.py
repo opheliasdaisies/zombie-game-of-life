@@ -60,19 +60,18 @@ class Board:
 
         print(rendered_board + self.TEXT_RESET)
 
-    def populate_board(self, state):
+    def populate_board(self):
         tty.setraw(sys.stdin)
         cursor_row = 0
         cursor_col = 0
-        prev_cell_state = ''
-        accepting_input = True
 
-        while accepting_input: # continue taking input
+        print('Navigate the board with the arrow keys.\nUse Spacebar to select a cell and toggle between dead, alive, and zombie states.\nPress Enter to begin the game once you are done selecting your starting cells.')
+
+        while True: # continue taking input
             rendered_board = f'{self.BLACK_BACKGROUND}'
             for row in self.grid:
                 for cell in row:
                     if cell.row is cursor_row and cell.col is cursor_col:
-
                         rendered_board += self.CURSOR[cell.state]
                     else:
                         rendered_state = cell.next_state or cell.state
@@ -98,13 +97,13 @@ class Board:
                     elif next2 == 68: # Left
                         if cursor_col > 0:
                             cursor_col -= 1
-                prev_cell_state = None
             elif char == 32: # Space
                 cell = self.grid[cursor_row][cursor_col]
-                if cell.state is not state:
-                    prev_cell_state = cell.state
-                    cell.state = state
+                if cell.state is 'dead':
+                    cell.state = 'alive'
+                elif cell.state is 'alive':
+                    cell.state = 'zombie'
                 else:
-                    cell.state = prev_cell_state
+                    cell.state = 'dead'
             elif char == 10 or char == 13: # Enter
-                accepting_input = False
+                return
