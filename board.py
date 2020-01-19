@@ -114,3 +114,5 @@ class Board:
             elif char == 10 or char == 13: # Enter
                 tty.tcsetattr(sys.stdin, tty.TCSAFLUSH, mode)
                 return
+            elif char == 3: # CTRL-C
+                raise KeyboardInterrupt
