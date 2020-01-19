@@ -66,10 +66,15 @@ class Board:
         cursor_row = 0
         cursor_col = 0
 
-        print('Navigate the board with the arrow keys.\nUse Spacebar to select a cell and toggle between dead, alive, and zombie states.\nPress Enter to begin the game once you are done selecting your starting cells.')
+        instructions = ('Navigate the board with the arrow keys.\n\r'
+                        'Use Spacebar to select a cell and toggle between '
+                        f'{self.BLACK_BACKGROUND}{self.WHITE_TEXT}dead{self.TEXT_RESET}, '
+                        f'{self.WHITE_BACKGROUND}{self.BLACK_TEXT}alive{self.TEXT_RESET}, and '
+                        f'{self.BLACK_BACKGROUND}{self.GREEN_TEXT}zombie{self.TEXT_RESET} states.\n\r'
+                        'Press Enter to begin the game once you are done selecting your starting cells.\n\n\r')
 
         while True: # continue taking input
-            rendered_board = f'{self.BLACK_BACKGROUND}'
+            rendered_board = f'{instructions}{self.BLACK_BACKGROUND}'
             for row in self.grid:
                 for cell in row:
                     if cell.row is cursor_row and cell.col is cursor_col:
@@ -77,7 +82,7 @@ class Board:
                     else:
                         rendered_state = cell.next_state or cell.state
                         rendered_board += self.RENDERING_STRINGS[rendered_state]
-                rendered_board += '\n\u001b[1000D' # New line and move cursor to the left (1000 characters)
+                rendered_board += '\n\r'
 
             os.system('cls' if os.name == 'nt' else 'clear')
             print(rendered_board + self.TEXT_RESET)
