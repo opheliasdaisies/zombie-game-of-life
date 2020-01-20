@@ -48,23 +48,34 @@ class Board:
         
         return board
 
+    def get_borders(self):
+        return {
+            'top': f'{self.WHITE_TEXT}' + ('\u2581' * (self.width + 2)) + '\n\r',
+            'bottom': f'{self.WHITE_TEXT}' + ('\u2594' * (self.width + 2)) + '\n\r',
+            'left': f'{self.WHITE_TEXT}\u2590',
+            'right': f'{self.WHITE_TEXT}\u258C',
+        }
+
     def draw_board(self):
+        borders = self.get_borders()
         os.system('cls' if os.name == 'nt' else 'clear')
-        rendered_board = f'{self.BLACK_BACKGROUND}'
+        rendered_board = f'{borders["top"]}{self.BLACK_BACKGROUND}'
 
         for row in self.grid:
+            rendered_board += borders['left']
             for cell in row:
                 rendered_state = cell.next_state or cell.state
                 rendered_board += self.RENDERING_STRINGS[rendered_state]
-            rendered_board += '\n\u001b[1000D' # New line and move cursor to the left (1000 characters)
+            rendered_board += f'{borders["right"]}\n\r'
 
-        print(rendered_board + self.TEXT_RESET)
+        print(rendered_board + self.TEXT_RESET + borders['bottom'])
 
     def populate_board(self):
         mode = tty.tcgetattr(sys.stdin)
         tty.setraw(sys.stdin)
         cursor_row = 0
         cursor_col = 0
+        borders = self.get_borders()
 
         instructions = ('Navigate the board with the arrow keys.\n\r'
                         'Use Spacebar to select a cell and toggle between '
@@ -74,18 +85,19 @@ class Board:
                         'Press Enter to begin the game once you are done selecting your starting cells.\n\n\r')
 
         while True: # continue taking input
-            rendered_board = f'{instructions}{self.BLACK_BACKGROUND}'
+            rendered_board = f'{instructions}{borders["top"]}{self.BLACK_BACKGROUND}'
             for row in self.grid:
+                rendered_board += borders['left']
                 for cell in row:
                     if cell.row is cursor_row and cell.col is cursor_col:
                         rendered_board += self.CURSOR[cell.state]
                     else:
                         rendered_state = cell.next_state or cell.state
                         rendered_board += self.RENDERING_STRINGS[rendered_state]
-                rendered_board += '\n\r'
+                rendered_board += f'{borders["right"]}\n\r'
 
             os.system('cls' if os.name == 'nt' else 'clear')
-            print(rendered_board + self.TEXT_RESET)
+            print(rendered_board + self.TEXT_RESET + borders['bottom'])
 
             char = ord(sys.stdin.read(1)) # listen for arrow keys and get char code
             if char == 27:
