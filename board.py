@@ -127,4 +127,5 @@ class Board:
                 tty.tcsetattr(sys.stdin, tty.TCSAFLUSH, mode)
                 return
             elif char == 3: # CTRL-C
+                tty.tcsetattr(sys.stdin, tty.TCSAFLUSH, mode)
                 raise KeyboardInterrupt
