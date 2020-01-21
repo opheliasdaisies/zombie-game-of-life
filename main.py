@@ -1,6 +1,9 @@
 import time
 from board import Board
 
+BLUE_TEXT = '\u001b[34m'
+TEXT_RESET = '\u001b[0m'
+
 def tick(board):
     for row in board.grid:
         for cell in row:
@@ -12,7 +15,7 @@ def tick(board):
             cell.reset_state()
 
 def main():
-    print('\u001b[34mWelcome to the ZOMBIE Game of Life\u001b[0m')
+    print(f'{BLUE_TEXT}Welcome to the ZOMBIE Game of Life{TEXT_RESET}')
     width = int(input('How many cells wide should the board be?\n'))
     height = int(input('How many cells high should the board be?\n'))
     board = Board(width, height)

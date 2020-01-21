@@ -141,7 +141,7 @@ class Board:
         accepting_input = True
         borders = self.get_borders()
 
-        instructions = ('Navigate the board with the arrow keys.\n\r'
+        instructions = (f'{self.TEXT_RESET}Navigate the board with the arrow keys.\n\r'
                         'Use Spacebar to select a cell and toggle between '
                         f'{self.BLACK_BACKGROUND}{self.WHITE_TEXT}dead{self.TEXT_RESET}, '
                         f'{self.WHITE_BACKGROUND}{self.BLACK_TEXT}alive{self.TEXT_RESET}, and '
