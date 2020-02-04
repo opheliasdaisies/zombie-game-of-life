@@ -10,6 +10,7 @@ class Cell:
         self.col = col
         self.count_alive_neighbors = 0
         self.count_zombie_neighbors = 0
+        self.neighbors = self.get_neighbors()
 
     def get_neighbor_state(self, neighboring_cell):
         if neighboring_cell.state is 'alive':
@@ -17,26 +18,34 @@ class Cell:
         if neighboring_cell.state is 'zombie':
             self.count_zombie_neighbors += 1
 
+    def find_horizontal_neighbors(self, row_offset):
+        horiz_neighbors = []
+        if self.col > 0:
+            horiz_neighbors.append((self.row+row_offset, self.col-1))
+        if self.col < self.board.width-1:
+            horiz_neighbors.append((self.row+row_offset, self.col+1))
+        return horiz_neighbors
+
+    def get_neighbors(self):
+        neighbor_coordinates = []
+
+        neighbor_coordinates += self.find_horizontal_neighbors(0)
+        if self.row > 0:
+            neighbor_coordinates.append((self.row-1, self.col))
+            neighbor_coordinates += self.find_horizontal_neighbors(-1)
+        if self.row < self.board.height-1:
+            neighbor_coordinates.append((self.row+1, self.col))
+            neighbor_coordinates += self.find_horizontal_neighbors(+1)
+
+        return neighbor_coordinates
+
     def check_neighboring_cells(self):
         board = self.board.grid
-        max_row = self.board.height-1
-        max_col = self.board.width-1
-        if self.row > 0:
-            if self.col > 0:
-                self.get_neighbor_state(board[self.row-1][self.col-1])
-            if self.col < max_col:
-                self.get_neighbor_state(board[self.row-1][self.col+1])
-            self.get_neighbor_state(board[self.row-1][self.col])
-        if self.row < max_row:
-            if self.col > 0:
-                self.get_neighbor_state(board[self.row+1][self.col-1])
-            if self.col < max_col:
-                self.get_neighbor_state(board[self.row+1][self.col+1])
-            self.get_neighbor_state(board[self.row+1][self.col])
-        if self.col > 0:
-            self.get_neighbor_state(board[self.row][self.col-1])
-        if self.col < max_col:
-            self.get_neighbor_state(board[self.row][self.col+1])
+
+        for neighbor_coordinates in self.neighbors:
+            neighbor_row = neighbor_coordinates[0]
+            neighbor_col = neighbor_coordinates[1]
+            self.get_neighbor_state(board[neighbor_row][neighbor_col])
 
     def update_state(self):
         if self.state == 'alive':
