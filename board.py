@@ -1,5 +1,6 @@
 import tty
 import sys
+from functools import reduce
 from cell import Cell
 
 class Board:
@@ -10,6 +11,8 @@ class Board:
         self.grid = self.create()
         self.cursor_row = 0
         self.cursor_col = 0
+        self.has_changed_this_turn = False
+        self.game_has_not_ended = True
 
     BLACK_BACKGROUND = '\u001b[40m'
     WHITE_BACKGROUND = '\u001b[47m'
@@ -165,3 +168,29 @@ class Board:
 
             keypress = self.process_keyboard_input()
             accepting_input = self.handle_keypress(keypress, mode)
+
+    def get_cell_counts(self):
+        living = 0
+        zombie = 0
+
+        for row in self.grid:
+            for cell in row:
+                if cell.state is 'alive':
+                    living += 1
+                if cell.state is 'zombie':
+                    zombie += 1
+        return (living, zombie)
+
+    def end_game(self):
+        self.game_has_not_ended = False
+        living, zombie = self.get_cell_counts()
+        self.draw_board()
+        print('Game Over!\n')
+        if living > 0 and zombie is 0:
+            print('The Living Win!\n')
+        elif zombie > 0 and living is 0:
+            print('The Zombies Win!\n')
+        elif living > 0 and zombie > 0:
+            print('Both Zombies and the Living Continue to Co-Exist... For Now\n')
+        else:
+            print('Everything Dies. It is a scorched wasteland.\n')

@@ -10,9 +10,13 @@ def tick(board):
             cell.take_turn()
     board.draw_board()
 
-    for row in board.grid:
-        for cell in row:
-            cell.reset_state()
+    if board.has_changed_this_turn:
+        board.has_changed_this_turn = False
+        for row in board.grid:
+            for cell in row:
+                cell.reset_state()
+    else:
+        board.end_game()
 
 def main():
     print(f'{BLUE_TEXT}Welcome to the ZOMBIE Game of Life{TEXT_RESET}')
@@ -23,7 +27,7 @@ def main():
 
     try:
         board.populate_board()
-        while True:
+        while board.game_has_not_ended:
             tick(board)
             time.sleep(1)
     except KeyboardInterrupt:

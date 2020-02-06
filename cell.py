@@ -65,6 +65,9 @@ class Cell:
         if not self.next_state:
             self.next_state = self.state
 
+        if self.state != self.next_state:
+            self.board.has_changed_this_turn = True
+
     def take_turn(self):
         self.check_neighboring_cells()
         self.update_state()
